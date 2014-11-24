@@ -7,148 +7,160 @@
 
 using namespace std;
 
-
+template<class T>
 class Node
 {
 private:
-    int data;
+    T data;
     Node *parent;
     vector<Node *> childs;
 
 public:
 
-    Node(int data);
-    Node(int data, Node *parent);
+    Node(T data);
+    Node(T data, Node *parent);
 
-    Node *getParent() const;
+    Node<T> *getParent() const;
     void setParent(Node *value);
     int getData();
-    void setData(int value);
-    vector<Node *> *getChilds();
-    Node *getChildByPos(int pos);
+    void setData(T value);
+    vector<Node<T> *> *getChilds();
+    Node<T> *getChildByPos(int pos);
     void setChilds(int pos, Node *newNode);
     void setChildSize(int size);
     int getChildSize();
 
 };
 
-Node::Node(int data)
+template<class T>
+Node<T>::Node(T data)
 {
     this->data =data;
     this->parent =NULL;
     childs.clear();
 }
 
-Node::Node(int data, Node *parent)
+template<class T>
+Node<T>::Node(T data, Node *parent)
 {
     this->data = data;
     this->parent = parent;
     childs.clear();
 }
 
-
-Node *Node::getParent() const
+template<class T>
+Node<T> *Node<T>::getParent() const
 {
     return parent;
 }
 
-void Node::setParent(Node *value)
+template<class T>
+void Node<T>::setParent(Node *value)
 {
     parent = value;
 }
 
-int Node::getData()
+template<class T>
+int Node<T>::getData()
 {
     return this->data;
 }
 
-void Node::setData(int value)
+template<class T>
+void Node<T>::setData(T value)
 {
     data = value;
 }
 
-vector<Node *> *Node::getChilds()
+template<class T>
+vector<Node<T> *> *Node<T>::getChilds()
 {
     return &childs;
 }
 
-Node *Node::getChildByPos(int pos)
+template<class T>
+Node<T> *Node<T>::getChildByPos(int pos)
 {
     return childs[pos];
 }
 
-
-void Node::setChilds(int pos, Node *newNode)
+template<class T>
+void Node<T>::setChilds(int pos, Node *newNode)
 {
     childs[pos] = newNode;
 }
 
-void Node::setChildSize(int size)
+template<class T>
+void Node<T>::setChildSize(int size)
 {
     childs.resize(size);
 }
 
-int Node::getChildSize()
+template<class T>
+int Node<T>::getChildSize()
 {
     return childs.size();
 }
 
 //---------------------------------TREE---------------------------------------------------//
 
+template<class U>
 class Tree
 {
 private:
-    Node *root;
-    Node *current;
+    Node<U> *root;
+    Node<U> *current;
 
 public:
     Tree();
-    Node *init(int data);
-    vector<Node *> *insert(Node *ref, vector<int> data);
-    void preorder(Node *n);
-    void posOrder(Node *n);
+    Node<U> *init(U data);
+    vector<Node<U> *> *insert(Node<U> *ref, vector<U> data);
+    void preorder(Node<U> *n);
+    void posOrder(Node<U> *n);
 
-    Node *getRoot() const;
-    void setRoot(Node *value);
-    Node *getCurrent() const;
-    void setCurrent(Node *value);
+    Node<U> *getRoot() const;
+    void setRoot(Node<U> *value);
+    Node<U> *getCurrent() const;
+    void setCurrent(Node<U> *value);
 };
 
 
-
-Tree::Tree():root(NULL),current(NULL)
+template<class U>
+Tree<U>::Tree():root(NULL),current(NULL)
 {
 
 }
 
-
-Node *Tree::getRoot() const
+template<class U>
+Node<U> *Tree<U>::getRoot() const
 {
     return root;
 }
 
-void Tree::setRoot(Node *value)
+template<class U>
+void Tree<U>::setRoot(Node<U> *value)
 {
     root = value;
 }
 
-Node *Tree::getCurrent() const
+template<class U>
+Node<U> *Tree<U>::getCurrent() const
 {
     return current;
 }
 
-void Tree::setCurrent(Node *value)
+template<class U>
+void Tree<U>::setCurrent(Node<U> *value)
 {
     current = value;
 }
 
-
-
-Node *Tree::init(int data)
+template<class U>
+Node<U> *Tree<U>::init(U data)
 {
     if(root == NULL)
     {
-        root = new Node(data);
+        root = new Node<U>(data);
         current = root;
 
     }
@@ -156,25 +168,26 @@ Node *Tree::init(int data)
     return root;
 }
 
-vector<Node *> *Tree::insert(Node *ref, vector<int> data)
+template<class U>
+vector<Node<U> *> *Tree<U>::insert(Node<U> *ref, vector<U> data)
 {
     current = ref;
     current->setChildSize(data.size());
 
     for(unsigned int i=0; i<data.size(); i++)
     {
-        Node *newNode = new Node(data.at(i));
+        Node<U> *newNode = new Node<U>(data.at(i));
         newNode->setParent(current);
         current->setChilds(i,newNode);
     }
 
-    //vector<Node *> tempchilds = current->getChilds();
 
     return current->getChilds();
 
 }
 
-void Tree::preorder(Node *n)
+template<class U>
+void Tree<U>::preorder(Node<U> *n)
 {
     if(n==NULL) return;
 
@@ -186,7 +199,8 @@ void Tree::preorder(Node *n)
     }
 }
 
-void Tree::posOrder(Node *n)
+template<class U>
+void Tree<U>::posOrder(Node<U> *n)
 {
     if(n==NULL) return;
 
